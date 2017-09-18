@@ -34,12 +34,12 @@ public class IBANcheck {
 	String ktnr;
 	int check;
 	private static final Integer[] WEIGHT_00 = new Integer[] {2, 1, 2, 1, 2, 1, 2, 1, 2};
-	private static final Integer[] WEIGHT_01 = new Integer[] {3, 7, 1, 3, 7, 1, 3, 7, 1 };
-	private static final Integer[] WEIGHT_02 = new Integer[] {2, 3, 4, 5, 6, 7, 8, 9, 2 };
+	private static final Integer[] WEIGHT_01 = new Integer[] {3, 7, 1, 3, 7, 1, 3, 7, 1};
+	private static final Integer[] WEIGHT_02 = new Integer[] {2, 3, 4, 5, 6, 7, 8, 9, 2};
 	private static final Integer[] WEIGHT_03 = new Integer[] {2, 3, 4, 5, 6, 7, 2, 3, 4};
 	private static final Integer[] WEIGHT_04 = new Integer[] {7, 3, 1, 7, 3, 1, 7, 3, 1 };
-	private static final Integer[] WEIGHT_05 = new Integer[] {2,  3,  4,  5,  6,  7,  2,  3};
-	private static final Integer[] WEIGHT_06 = new Integer[] { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	private static final Integer[] WEIGHT_05 = new Integer[] {2, 3, 4, 5, 6, 7, 2, 3};
+	private static final Integer[] WEIGHT_06 = new Integer[] {2, 3, 4, 5, 6, 7, 8, 9, 10};
 	public void createSubpartsGermanIBAN(String ibanS) {
 		if(checkLenth(ibanS)) {
 			final String cc = String.join("|", countryCodes);
