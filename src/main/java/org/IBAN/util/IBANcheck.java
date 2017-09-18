@@ -1,4 +1,5 @@
 package org.IBAN.util;
+import java.lang.StringBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.math.BigInteger;
 public class IBANcheck {
 	private static final HashSet<String> countryCodes = new HashSet<>(Arrays.asList("AC", "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AN", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
 		"BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BY", "BZ",
@@ -22,6 +24,9 @@ public class IBANcheck {
 		"SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SU", "SV", "SX", "SY", "SZ",
 		"TC", "TD", "TF", "TG",	"TA", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ",
 		"UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "XK", "XS", "YE", "YT", "YU", "ZA", "ZM", "ZR", "ZW"));
+	private static final Integer IBANNUMBER_MIN_SIZE = 15;
+	private static final Integer IBANNUMBER_MAX_SIZE = 34;
+	private static final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
 	String ibanS;
 	String countryCode;
 	String checkSum;
@@ -36,25 +41,63 @@ public class IBANcheck {
 	private static final Integer[] WEIGHT_05 = new Integer[] {2,  3,  4,  5,  6,  7,  2,  3};
 	private static final Integer[] WEIGHT_06 = new Integer[] { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	public void createSubpartsGermanIBAN(String ibanS) {
-		if(ibanS.length() == 22) {
+		if(checkLenth(ibanS)) {
 			final String cc = String.join("|", countryCodes);
-			final Pattern    IBANP    = Pattern.compile("^(" + cc + ")(\\d{2})(\\d{8})(\\d{10})$");
-			final Matcher matcher = IBANP.matcher(ibanS);
-			assert(matcher.matches());
-			matcher.matches();
+			Matcher matcher;
+			String pattern = "^(" + cc + ")(\\d{2})(\\d{13,32})$";
+			matcher = validateByRegex(pattern, ibanS);
 			this.countryCode = matcher.group(1);
-			if(this.countryCode.equals("DE")) {
+			boolean hasValidChecksum = checksumIBAN(ibanS);
+			if(ibanS.length() == 22 && this.countryCode.equals("DE") && hasValidChecksum) {
+				pattern = "^(" + cc + ")(\\d{2})(\\d{8})(\\d{10})$";
+				matcher = validateByRegex(pattern, ibanS);
 				this.checkSum = matcher.group(2);
 				this.blz    = matcher.group(3);
 				this.ktnr   = matcher.group(4);
 				this.check   = digit(ktnr.charAt(ktnr.length()-1));
 				System.out.println(countryCode + " " + checkSum + " " + blz + " " + ktnr);
-				testMethod10();
+				testMethod10(ktnr, check);
 			}
-        }
+			else if(ibanS.length() != 22 |! this.countryCode.equals("DE")) {
+				System.out.println("Not a German IBAN. Nothing to be done");
+			}
+			else if(!hasValidChecksum){
+				System.out.println("Faild IBAN checksum check");
+			}
+		}
+		else {
+			System.err.println("Length of IBAN must be between: " + IBANNUMBER_MIN_SIZE + " and " + IBANNUMBER_MAX_SIZE + " " + ibanS);
+		}
 	}
-	private void testMethod10() {
-		final List<Integer> digits  = this.ktnr.chars().map(IBANcheck::digit).boxed().collect(Collectors.<Integer>toList());
+	private static boolean checkLenth(String ibanS) {
+		boolean ibanValidLegnth = true;
+		if (ibanS.length() < IBANNUMBER_MIN_SIZE || ibanS.length() > IBANNUMBER_MAX_SIZE) {
+			ibanValidLegnth = false;
+		}
+		return ibanValidLegnth;
+	}
+	private static Matcher validateByRegex(String pattern, String ibanS) {
+		final Pattern    IBANP    = Pattern.compile(pattern);
+		Matcher matcher = IBANP.matcher(ibanS);
+		assert(matcher.matches());
+		matcher.matches();
+		return matcher;
+	}
+	private static boolean checksumIBAN(String ibanS) {
+		boolean hasValidChecksum = false;
+		ibanS = ibanS.trim();
+		ibanS = ibanS.substring(4) + ibanS.substring(0, 4);
+		StringBuilder numericAccountNumber = new StringBuilder();
+		for (int i = 0;i < ibanS.length();i++) {
+			numericAccountNumber.append(Character.getNumericValue(ibanS.charAt(i)));
+		}
+		BigInteger ibanNumber = new BigInteger(numericAccountNumber.toString());
+		hasValidChecksum = ibanNumber.mod(IBANNUMBER_MAGIC_NUMBER).intValue() == 1;
+		assert hasValidChecksum;
+		return hasValidChecksum;
+	}
+	private static void testMethod10(String ktnr, int check) {
+		final List<Integer> digits  = ktnr.chars().map(IBANcheck::digit).boxed().collect(Collectors.<Integer>toList());
 		final List<Integer> factors = reverse(Arrays.asList(WEIGHT_06));
 		final int           sum     = zipWith(digits, factors, (a,b) -> a * b).stream().mapToInt(i -> i).sum();
 		final int       result1 = (11 - (sum % 11)) % 11;
@@ -76,5 +119,5 @@ public class IBANcheck {
 		final List<C>   tmp = new ArrayList<>(size);
 		for (int i=0; i<size; i++)  tmp.add(with.apply(as.get(i), bs.get(i)));
 		return Collections.unmodifiableList(tmp);
-	}	
+	}
 }
