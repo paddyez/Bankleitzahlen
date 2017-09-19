@@ -44,29 +44,29 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   </pluginRepositories>
   <build>
     <sourceDirectory>
-    /home/paddy/salesforce.com/kontonummern/src/main/java</sourceDirectory>
+    src/main/java</sourceDirectory>
     <scriptSourceDirectory>
-    /home/paddy/salesforce.com/kontonummern/src/main/scripts</scriptSourceDirectory>
+    src/main/scripts</scriptSourceDirectory>
     <testSourceDirectory>
-    /home/paddy/salesforce.com/kontonummern/src/test/java</testSourceDirectory>
+    src/test/java</testSourceDirectory>
     <outputDirectory>
-    /home/paddy/salesforce.com/kontonummern/target/classes</outputDirectory>
+    target/classes</outputDirectory>
     <testOutputDirectory>
-    /home/paddy/salesforce.com/kontonummern/target/test-classes</testOutputDirectory>
+    target/test-classes</testOutputDirectory>
     <resources>
       <resource>
         <directory>
-        /home/paddy/salesforce.com/kontonummern/src/main/resources</directory>
+        src/main/resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
         <directory>
-        /home/paddy/salesforce.com/kontonummern/src/test/resources</directory>
+        src/test/resources</directory>
       </testResource>
     </testResources>
     <directory>
-    /home/paddy/salesforce.com/kontonummern/target</directory>
+    target</directory>
     <finalName>Main-0.1.0</finalName>
     <pluginManagement>
       <plugins>
@@ -119,7 +119,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <classpathPrefix>utils/</classpathPrefix>
+              <classpathPrefix>utils</classpathPrefix>
               <mainClass>org.IBAN.Main</mainClass>
             </manifest>
           </archive>
@@ -238,7 +238,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </goals>
             <configuration>
               <outputDirectory>
-              /home/paddy/salesforce.com/kontonummern/target/site</outputDirectory>
+              target/site</outputDirectory>
               <reportPlugins>
                 <reportPlugin>
                   <groupId>org.apache.maven.plugins</groupId>
@@ -256,7 +256,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </goals>
             <configuration>
               <outputDirectory>
-              /home/paddy/salesforce.com/kontonummern/target/site</outputDirectory>
+              target/site</outputDirectory>
               <reportPlugins>
                 <reportPlugin>
                   <groupId>org.apache.maven.plugins</groupId>
@@ -269,7 +269,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         </executions>
         <configuration>
           <outputDirectory>
-          /home/paddy/salesforce.com/kontonummern/target/site</outputDirectory>
+          target/site</outputDirectory>
           <reportPlugins>
             <reportPlugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -283,6 +283,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   </build>
   <reporting>
     <outputDirectory>
-    /home/paddy/salesforce.com/kontonummern/target/site</outputDirectory>
+    target/site</outputDirectory>
   </reporting>
 </project>
