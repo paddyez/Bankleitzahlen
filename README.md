@@ -32,4 +32,4 @@ mvn help:effective-pom
 License
 -------
 
-WTFPL LICENSE.md
+WTFPL see file LICENSE.md
