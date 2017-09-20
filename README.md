@@ -1,3 +1,13 @@
+Kontonummern
+============
+
+According to the German Wikipedia there are 143 different Methods to calculate the check digit in Germany:
+
+https://de.wikipedia.org/wiki/Kontonummer#Deutschland
+
+1. https://www.bundesbank.de/Navigation/DE/Aufgaben/Unbarer_Zahlungsverkehr/Serviceangebot/Pruefzifferberechnung/pruefzifferberechnung.html
+2. https://www.bundesbank.de/Redaktion/DE/Downloads/Aufgaben/Unbarer_Zahlungsverkehr/pruefzifferberechnungsmethoden.pdf?__blob=publicationFile
+
 Build
 -----
 
@@ -21,3 +31,5 @@ mvn help:effective-pom
 
 License
 -------
+
+WTFPL LICENSE.md
