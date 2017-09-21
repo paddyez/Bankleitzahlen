@@ -8,6 +8,10 @@ https://de.wikipedia.org/wiki/Kontonummer#Deutschland
 1. https://www.bundesbank.de/Navigation/DE/Aufgaben/Unbarer_Zahlungsverkehr/Serviceangebot/Pruefzifferberechnung/pruefzifferberechnung.html
 2. https://www.bundesbank.de/Redaktion/DE/Downloads/Aufgaben/Unbarer_Zahlungsverkehr/pruefzifferberechnungsmethoden.pdf?__blob=publicationFile
 
+Also help at:
+
+1. https://stackoverflow.com/questions/46247223/german-kontonummer-iban-bank-number-validation
+
 Build
 -----
 
